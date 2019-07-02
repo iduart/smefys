@@ -21,7 +21,7 @@ export const SecondaryButton = styled(Button)`
   background-color: #de5b00;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  padding-top: 0.4rem;
+  padding-top: 0.2rem;
   padding-bottom: 0.4rem;
   font-weight: bold;
   height: 2rem;
