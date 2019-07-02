@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { Logo, UserAvatarIcon, FacebookIcon } from "../components/Icons"
 import { Input } from "../components/Input/Input"
-import { Button } from "../components/Button/Button"
+import { PrimaryButton } from "../components/Button/Button"
 
 const Page = styled.div`
   padding: 2rem;
@@ -60,7 +60,7 @@ const LoginPage = () => {
       <LoginForm>
         <Input type="text" placeholder="EMAIL" />
         <Input type="password" placeholder="CONTRASEÑA" />
-        <Button>ENTRAR</Button>
+        <PrimaryButton>ENTRAR</PrimaryButton>
       </LoginForm>
       <Footer>
         <a href="#">Crear cuenta</a>
