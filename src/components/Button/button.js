@@ -14,7 +14,6 @@ export const PrimaryButton = styled(Button)`
   font-size: 1.2rem;
   font-weight: bold;
   height: 3.4rem;
-  width: 70%;
 `
 
 export const SecondaryButton = styled(Button)`
