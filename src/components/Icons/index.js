@@ -3,3 +3,4 @@ export { UserAvatarIcon } from './UserAvatarIcon';
 export { FacebookIcon } from './FacebookIcon';
 export { LogoIcon } from './LogoIcon';
 export { PlusIcon } from './PlusIcon';
+export { HamburgerIcon } from './HamburgerIcon';

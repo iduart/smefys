@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
+import withAuthenticator from "../hoc/withAuthenticator"
 import LayoutOrder from "../components/Layouts/LayoutOrder"
+import { authStatus } from '../utils/constants';
 
 const ContentBody = styled.div`
   display: grid;
@@ -28,25 +30,27 @@ const Category = styled.div`
   }
 `
 
-const CategoriesPage = () => {
+const CategoriesPage = props => {
   return (
-    <LayoutOrder>
-      <ContentBody>
-        <Category>
-          <div>Carnes</div>
-        </Category>
-        <Category>
-          <div>Arroz</div>
-        </Category>
-        <Category>
-          <div>Granos</div>
-        </Category>
-        <Category>
-          <div>Ensalada</div>
-        </Category>
-      </ContentBody>
-    </LayoutOrder>
+    props.authState == authStatus.SIGNED_IN && (
+      <LayoutOrder>
+        <ContentBody>
+          <Category>
+            <div>Carnes</div>
+          </Category>
+          <Category>
+            <div>Arroz</div>
+          </Category>
+          <Category>
+            <div>Granos</div>
+          </Category>
+          <Category>
+            <div>Ensalada</div>
+          </Category>
+        </ContentBody>
+      </LayoutOrder>
+    )
   )
 }
 
-export default CategoriesPage
+export default withAuthenticator(CategoriesPage)

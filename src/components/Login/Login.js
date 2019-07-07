@@ -1,10 +1,12 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Auth } from 'aws-amplify';
+import queryString from 'query-string';
 import { Link, navigate } from 'gatsby';
 import styled from "styled-components"
-import { Logo, UserAvatarIcon, FacebookIcon } from "../components/Icons"
-import { Input } from "../components/Input/Input"
-import { PrimaryButton } from "../components/Button/Button"
+import { Logo, UserAvatarIcon, FacebookIcon } from "../Icons"
+import { Input } from "../Input/Input"
+import { PrimaryButton } from "../Button/Button"
+import { authStatus } from '../../utils/constants';
 
 const Page = styled.div`
   padding: 2rem;
@@ -47,12 +49,21 @@ const Footer = styled.div`
   a {
     color: #7C7C7C;
     margin-bottom: 1.8rem;
+    text-decoration: underline;
   }
 `;
 
-const LoginPage = () => {
+const LoginPage = ({ authState, ...props }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (authState === authStatus.SIGNED_IN) {
+      navigate('/categories')
+    } else {
+      navigate('/')
+    }
+  }, [authState])
 
   const login = async (e) => {
     e.preventDefault();
@@ -64,7 +75,7 @@ const LoginPage = () => {
     }
   }
 
-  return (
+  return !(authState === authStatus.SIGNED_IN) ? (
     <Page>
       <div className="logo">
         <Logo width="150" height="100" />
@@ -78,11 +89,11 @@ const LoginPage = () => {
         <PrimaryButton onClick={login}>ENTRAR</PrimaryButton>
       </LoginForm>
       <Footer>
-        <Link to="/register">Crear cuenta</Link>
+        No tienes cuenta? <Link to="/register">Crear una gratis</Link>
         <FacebookIcon />
       </Footer>
     </Page>
-  )
+  ) : null
 }
 
 export default LoginPage

@@ -1,0 +1,8 @@
+{
+	"auth": {
+		"smefys921dd51c": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}

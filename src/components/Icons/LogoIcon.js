@@ -1,11 +1,11 @@
 import React from "react"
 
-export const LogoIcon = ({ color = "#FFFFFF", className = '' }) => (
+export const LogoIcon = ({ color = "#FFFFFF", className = '', width = 70, height = 70 }) => (
   <svg
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
-    width="47.6"
-    height="27.23"
+    width={width}
+    height={height}
     viewBox="0 0 47.6 27.23"
     className={className}
   >

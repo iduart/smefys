@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "smefys-dev-20190706161000-authRole",
+            "UnauthRoleArn": "arn:aws:iam::455853375643:role/smefys-dev-20190706161000-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::455853375643:role/smefys-dev-20190706161000-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "smefys-dev-20190706161000-deployment",
+            "UnauthRoleName": "smefys-dev-20190706161000-unauthRole",
+            "StackName": "smefys-dev-20190706161000",
+            "StackId": "arn:aws:cloudformation:us-east-1:455853375643:stack/smefys-dev-20190706161000/6ab422b0-a032-11e9-bb8e-0e243b4b1cce"
+        },
+        "categories": {
+            "auth": {
+                "smefys921dd51c": {}
+            }
+        }
+    }
+}

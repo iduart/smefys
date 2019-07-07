@@ -1,22 +1,12 @@
 import React from "react"
-import Amplify from 'aws-amplify';
-import { connect } from "react-redux"
-import SEO from "../components/seo"
-import "../components/layout.css";
+import Amplify from "aws-amplify"
+import config from "../aws-exports"
+import withAuthenticator from "../hoc/withAuthenticator"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "../components/layout.css"
 
-const IndexPage = () => (
-  <div>
-    <SEO title="Home" />
-  </div>
-)
+Amplify.configure(config)
 
-function mapStateToProps(state) {
-  return {
-    
-  }
-}
+const IndexPage = ({ authState}) => authState === 'loading' && <div> Cargando...</div>
 
-export default connect(
-  null,
-  null
-)(IndexPage)
+export default withAuthenticator(IndexPage)

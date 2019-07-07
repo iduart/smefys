@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Auth } from 'aws-amplify';
-import { Link, navigate } from 'gatsby';
+import queryString from 'query-string';
+import { Link, navigate } from 'gatsby'
 import styled from "styled-components"
 import { Logo } from "../components/Icons"
 import { Input } from "../components/Input/Input"
@@ -52,24 +53,28 @@ const Footer = styled.div`
   }
 `;
 
-const RegisterPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const ConfirmationMessage = styled.div`
+  text-align: center;
+  margin-top: 1rem;
+`
 
-  const login = async (e) => {
+const VerifyAccountPage = ({ location }) => {
+  const [code, setCode] = useState('');
+  const query = queryString.parse(location.search)
+  const { username } = query;
+
+  const verify = async (e) => {
     e.preventDefault();
+
+    if (!username || !code) {
+      alert('No se encontró un nombre de usuario o codigo para verificar');
+      return;
+    }
     try {
-      await Auth.signUp({
-        username: email,
-        password,
-        attributes: {
-          email
-        }
-      });
-      
-      navigate(`/verify-account?username=${email}`);
+      await Auth.confirmSignUp(username, code);
+      navigate('/', { hola: 'mindo '})
     } catch(error) {
-      alert('No se pudo crear la cuenta');
+      alert('Codigo no valido');
     }
   }
 
@@ -78,11 +83,12 @@ const RegisterPage = () => {
       <div className="logo">
         <Logo width="150" height="100" />
       </div>
+      <ConfirmationMessage>
+        Un código de confirmación fue enviado al correo <b>{username}</b>
+      </ConfirmationMessage>
       <LoginForm>
-        <Input type="text" placeholder="EMAIL" onChange={ event => setEmail(event.target.value)} />
-        <Input type="password" placeholder="CONTRASEÑA" onChange={ event => setPassword(event.target.value)} />
-        <Input type="address" placeholder="DIRECCION" />
-        <PrimaryButton onClick={login}>CREAR CUENTA</PrimaryButton>
+        <Input type="text" placeholder="CÓDIGO" onChange={ event => setCode(event.target.value)} />
+        <PrimaryButton onClick={verify}>ENVIAR</PrimaryButton>
       </LoginForm>
       <Footer>
         Ya tienes cuenta?<Link to="/"> Ingresa</Link>
@@ -91,4 +97,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default VerifyAccountPage

@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
-import { LogoIcon } from "../Icons"
+import { Auth, navigate } from "aws-amplify"
+import { Collapse } from "reactstrap"
+import { LogoIcon, HamburgerIcon } from "../Icons"
 import { SecondaryButton } from "../Button/Button"
 
 const Page = styled.div`
@@ -16,7 +18,7 @@ const Header = styled.div`
   color: #ffffff;
   font-size: 1.4rem;
   align-items: center;
-  padding-right: 2rem;
+  padding-left: 0.5rem;
 `
 
 const ColorBlock = styled.div`
@@ -25,12 +27,10 @@ const ColorBlock = styled.div`
   height: 100%;
 `
 
-const Title = styled.div`
-  margin-left: 1rem;
-`
-
-const HeaderIcon = styled(LogoIcon)`
-  margin-left: auto;
+const HeaderIcon = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `
 
 const Content = styled.div`
@@ -86,15 +86,45 @@ const Footer = styled.div`
   margin-top: 2rem;
 `
 
+const HamburgerMenu = styled.div`
+  padding: 1rem;
+  background-color: #ccc;
+  color: #ffffff;
+  ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+  }
+`
+
 const LayoutOrder = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const signOut = () => {
+    Auth.signOut()
+  }
   return (
     <Page>
       <Header>
+        <HamburgerIcon onClick={() => setIsOpen(!isOpen)} />
+        <HeaderIcon>
+          <LogoIcon />
+        </HeaderIcon>
         <ColorBlock color="#3A9517" />
         <ColorBlock color="#DE5B00" />
-        <Title>Categor&iacute;as</Title>
-        <HeaderIcon />
       </Header>
+      <Collapse isOpen={isOpen}>
+        <HamburgerMenu>
+          <ul>
+            <li onClick={signOut}>Logout</li>
+          </ul>
+        </HamburgerMenu>
+      </Collapse>
       <Content>
         <ContentHeader>
           <div className="title">Mañana</div>
