@@ -1,16 +1,8 @@
-import { takeLatest, fork, all } from 'redux-saga/effects';
-
-function* log() {
- console.log('Saga is working')
- yield null;
-}
-
-function* rootS() {
-  yield takeLatest('ADD', log);
-}
+import { fork, all } from 'redux-saga/effects';
+import categoriesSagas from './categories/sagas';
 
 export default function* rootSaga() {
   yield all([
-    fork(rootS)
+    fork(categoriesSagas)
   ])
 }

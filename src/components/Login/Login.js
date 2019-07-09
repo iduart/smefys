@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { Auth } from 'aws-amplify';
-import queryString from 'query-string';
 import { Link, navigate } from 'gatsby';
 import styled from "styled-components"
 import { Logo, UserAvatarIcon, FacebookIcon } from "../Icons"

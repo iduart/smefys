@@ -15,7 +15,7 @@ const ContentBody = styled.div`
 
 const CategoriesPage = props => {
   return (
-    props.authState == authStatus.SIGNED_IN && (
+    props.authState === authStatus.SIGNED_IN && (
       <LayoutOrder>
         <ContentBody>
           <Category name="Carnes" />

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import { reducer as counter } from "./counter";
+import { reducer as categories } from "./categories/index";
 
 export default combineReducers({
-  counter,
+  categories,
 })

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { Auth, navigate } from "aws-amplify"
+import { Auth } from "aws-amplify"
 import { Collapse } from "reactstrap"
 import { LogoIcon, HamburgerIcon } from "../Icons"
 import { SecondaryButton } from "../Button/Button"
