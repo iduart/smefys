@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { Auth } from 'aws-amplify';
-import { Link, navigate } from 'gatsby';
+import { Auth } from "aws-amplify"
+import { Link, navigate } from "gatsby"
 import styled from "styled-components"
 import { Logo, UserAvatarIcon, FacebookIcon } from "../Icons"
 import { Input } from "../Input/Input"
 import { PrimaryButton } from "../Button/Button"
-import { authStatus } from '../../utils/constants';
+import { authStatus } from "../../utils/constants"
 
 const Page = styled.div`
   padding: 2rem;
@@ -13,7 +13,7 @@ const Page = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   font-family: arial;
-  color: #7C7C7C;
+  color: #7c7c7c;
 
   .user-icon {
     margin-top: 1.2rem;
@@ -38,7 +38,7 @@ const LoginForm = styled.form`
   button {
     margin-top: 3rem;
   }
-`;
+`
 
 const Footer = styled.div`
   display: flex;
@@ -46,31 +46,32 @@ const Footer = styled.div`
   align-items: center;
 
   a {
-    color: #7C7C7C;
+    color: #7c7c7c;
     margin-bottom: 1.8rem;
     text-decoration: underline;
   }
-`;
+`
 
-const LoginPage = ({ authState, ...props }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginPage = ({ authState }) => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   useEffect(() => {
-    if (authState === authStatus.SIGNED_IN) {
-      navigate('/categories')
-    } else {
-      navigate('/')
+    if (
+      authState !== authStatus.LOADING &&
+      authState !== authStatus.SIGNED_IN
+    ) {
+      navigate("/")
     }
   }, [authState])
 
-  const login = async (e) => {
-    e.preventDefault();
+  const login = async e => {
+    e.preventDefault()
     try {
-      await Auth.signIn(email, password);
-      navigate('/categories');
-    } catch(error) {
-      alert('No se pudo loguear, por favor revisa tus credenciales');
+      await Auth.signIn(email, password)
+      navigate("/categories")
+    } catch (error) {
+      alert("No se pudo loguear, por favor revisa tus credenciales")
     }
   }
 
@@ -83,8 +84,16 @@ const LoginPage = ({ authState, ...props }) => {
         <UserAvatarIcon />
       </div>
       <LoginForm>
-        <Input type="text" placeholder="EMAIL" onChange={ event => setEmail(event.target.value)} />
-        <Input type="password" placeholder="CONTRASEÑA" onChange={ event => setPassword(event.target.value)} />
+        <Input
+          type="text"
+          placeholder="EMAIL"
+          onChange={event => setEmail(event.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="CONTRASEÑA"
+          onChange={event => setPassword(event.target.value)}
+        />
         <PrimaryButton onClick={login}>ENTRAR</PrimaryButton>
       </LoginForm>
       <Footer>

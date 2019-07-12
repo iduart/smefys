@@ -1,9 +1,10 @@
 import React from "react"
 import styled from "styled-components"
+import { graphql } from "gatsby"
 import withAuthenticator from "../hoc/withAuthenticator"
 import LayoutOrder from "../components/Layouts/LayoutOrder"
-import { authStatus } from '../utils/constants';
-import Category from '../components/Category/Category';
+import { authStatus } from "../utils/constants"
+import Category from "../components/Category/Category"
 
 const ContentBody = styled.div`
   display: grid;
@@ -13,15 +14,16 @@ const ContentBody = styled.div`
   padding: 0 1rem;
 `
 
-const CategoriesPage = props => {
+const CategoriesPage = ({ data, authState }) => {
+  const { categories = [] } = data.api
+
   return (
-    props.authState === authStatus.SIGNED_IN && (
+    authState === authStatus.SIGNED_IN && (
       <LayoutOrder>
         <ContentBody>
-          <Category name="Carnes" />
-          <Category name="Arroces" />
-          <Category name="Sancochos" />
-          <Category name="Cremas" />
+          {categories.map(({ _id, name }) => (
+            <Category key={_id} name={name} id={_id} />
+          ))}
         </ContentBody>
       </LayoutOrder>
     )
@@ -29,3 +31,14 @@ const CategoriesPage = props => {
 }
 
 export default withAuthenticator(CategoriesPage)
+
+export const query = graphql`
+  query {
+    api {
+      categories: getCategories {
+        _id
+        name
+      }
+    }
+  }
+`

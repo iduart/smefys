@@ -16,6 +16,7 @@
     "gatsby-plugin-react-helmet": "^3.0.12",
     "gatsby-plugin-sharp": "^2.1.5",
     "gatsby-source-filesystem": "^2.0.39",
+    "gatsby-source-graphql": "^2.1.0",
     "gatsby-transformer-sharp": "^2.1.21",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.1",

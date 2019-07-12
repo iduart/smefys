@@ -1,3 +1,4 @@
 export const authStatus = {
-  SIGNED_IN: 'signedIn'
+  SIGNED_IN: 'signedIn',
+  LOADING: 'loading'
 }

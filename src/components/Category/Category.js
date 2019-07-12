@@ -1,4 +1,5 @@
 import React from "react"
+import { navigate } from 'gatsby';
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -20,9 +21,9 @@ const Container = styled.div`
   }
 `
 
-const Category = ({ name }) => (
+const Category = ({ id, name }) => (
   <Container>
-    <div>{name}</div>
+    <div onClick={() => navigate(`/categories/${id}/items`)}>{name}</div>
   </Container>
 )
 
