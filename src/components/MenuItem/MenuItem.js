@@ -1,6 +1,11 @@
 import React from "react"
+import { connect } from "react-redux"
 import styled from "styled-components"
 import { PlusIcon } from "../Icons"
+import {
+  Actions as CartActions,
+  Selectors as CartSelectors,
+} from "../../store/cart"
 
 const Item = styled.div`
   display: flex;
@@ -46,17 +51,36 @@ const Circle = styled.span`
 
 const Icon = styled(PlusIcon)`
   cursor: pointer;
-`;
+`
 
-const MenuItem = ({ item = {}, count }) => (
-  <Item>
-    <div className="title">{item.name}</div>
-    <div className="price">${item.price}</div>
-    <div className="choose">
-      {count && <Circle>{count}</Circle>}
-      <Icon />
-    </div>
-  </Item>
-)
+const MenuItem = ({ item = {}, addItem, removeItem, cartItem }) => {
+  return (
+    <Item>
+      <div className="title">{item.name}</div>
+      <div className="price">${item.price}</div>
+      <div className="choose">
+        {cartItem.count ? <Icon onClick={() => removeItem(item)} /> : ""}
+        {cartItem.count ? <Circle>{cartItem.count}</Circle> : ""}
+        <Icon onClick={() => addItem(item)} />
+      </div>
+    </Item>
+  )
+}
 
-export default MenuItem
+function mapStateToProps(state, { item }) {
+  return {
+    cartItem: CartSelectors.getItem(state, item._id) || {},
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addItem: item => dispatch(CartActions.addItem(item)),
+    removeItem: id => dispatch(CartActions.removeItem(id)),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MenuItem)

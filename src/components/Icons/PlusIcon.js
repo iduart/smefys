@@ -1,6 +1,6 @@
 import React from "react"
 
-export const PlusIcon = ({ className }) => (
+export const PlusIcon = ({ className, onClick }) => (
   <svg
     id="Layer_1"
     xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +8,7 @@ export const PlusIcon = ({ className }) => (
     height="26"
     viewBox="0 0 15.77 15.76"
     className={className}
+    onClick={onClick}
   >
     <path
       fill="#FAA41B"

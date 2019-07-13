@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify"
 import { Collapse } from "reactstrap"
 import { LogoIcon, HamburgerIcon } from "../Icons"
 import { SecondaryButton } from "../Button/Button"
+import TotalPayment from "../TotalPayment/TotalPayment"
 
 const Page = styled.div`
   font-family: arial;
@@ -133,10 +134,7 @@ const LayoutOrder = ({ children }) => {
             <span>14 &bull;</span>
             <span>Septiembre</span>
           </div>
-          <div className="total-payment">
-            <div className="total-payment-title">TOTAL A PAGAR</div>
-            <div className="total-payment-value">$10.500</div>
-          </div>
+          <TotalPayment />
         </ContentHeader>
         {children}
       </Content>
