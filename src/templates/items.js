@@ -4,11 +4,7 @@ import { graphql } from "gatsby"
 import LayoutOrder from "../components/Layouts/LayoutOrder"
 import withAuthenticator from "../hoc/withAuthenticator"
 import MenuItem from "../components/MenuItem/MenuItem"
-
-const ContentBody = styled.div`
-  padding: 0 1rem;
-  margin-top: 1rem;
-`
+import { ContentBody } from "../components/Layouts/Common"
 
 const ItemsPage = ({ data }) => {
   const { menuItems } = data.api

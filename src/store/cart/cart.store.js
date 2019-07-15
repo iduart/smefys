@@ -19,7 +19,8 @@ export const Selectors = {
     return item ? { ...item } : null
   },
   getTotalPrice: state => state.cart && state.cart.totalPrice,
-  getCart: state => state.cart && state.cart.items 
+  getCart: state => state.cart,
+  getCartItems: state => state.cart && state.cart.items
 }
 
 // Reducer
