@@ -1,10 +1,14 @@
 import React, { useState } from "react"
+import { connect } from "react-redux"
+import { navigate } from "gatsby"
 import styled from "styled-components"
 import { Auth } from "aws-amplify"
 import { Collapse } from "reactstrap"
 import { LogoIcon, HamburgerIcon } from "../Icons"
 import { SecondaryButton } from "../Button/Button"
-import TotalPayment from "../TotalPayment/TotalPayment"
+import NumberFormat from "react-number-format"
+import { Selectors as CartSelectors } from "../../store/cart"
+import { esMoment } from "../../utils/formatDate"
 
 const Page = styled.div`
   font-family: arial;
@@ -56,6 +60,7 @@ const ContentHeader = styled.div`
 
     span {
       padding-bottom: 0.4rem;
+      text-transform: capitalize;
     }
 
     span:nth-child(1) {
@@ -81,7 +86,7 @@ const ContentHeader = styled.div`
   }
 `
 
-const Footer = styled.div`
+const CheckOrderButton = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
@@ -103,8 +108,10 @@ const HamburgerMenu = styled.div`
   }
 `
 
-const LayoutOrder = ({ children }) => {
+const LayoutOrder = ({ children, ...props }) => {
+  const tomorrow = esMoment().add(1, "day")
   const [isOpen, setIsOpen] = useState(false)
+  const [orderDate] = useState(tomorrow)
 
   const signOut = () => {
     Auth.signOut()
@@ -128,21 +135,43 @@ const LayoutOrder = ({ children }) => {
       </Collapse>
       <Content>
         <ContentHeader>
-          <div className="title">Mañana</div>
+          <div className="title">Arma tu almuerzo para mañana</div>
           <div className="order-date">
-            <span>Miercoles &bull;</span>
-            <span>14 &bull;</span>
-            <span>Septiembre</span>
+            <span>{orderDate.format("dddd")} &bull; </span>
+            <span>{orderDate.format("DD")} &bull; </span>
+            <span>{orderDate.format("MMMM")}</span>
           </div>
-          <TotalPayment />
+          {props.totalPrice ? (
+            <>
+              <div className="total-payment">
+                <div className="total-payment-title">TOTAL A PAGAR</div>
+                <div className="total-payment-value">
+                  <NumberFormat
+                    value={props.totalPrice}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />
+                </div>
+              </div>
+              <CheckOrderButton>
+                <SecondaryButton onClick={() => navigate("/cart")}>
+                  Resumen del pedido
+                </SecondaryButton>
+              </CheckOrderButton>
+            </>
+          ) : null}
         </ContentHeader>
         {children}
       </Content>
-      <Footer>
-        <SecondaryButton>Resumen del pedido</SecondaryButton>
-      </Footer>
     </Page>
   )
 }
 
-export default LayoutOrder
+function mapStateToProps(state) {
+  return {
+    totalPrice: CartSelectors.getTotalPrice(state),
+  }
+}
+
+export default connect(mapStateToProps)(LayoutOrder)

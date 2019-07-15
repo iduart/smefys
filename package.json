@@ -18,6 +18,7 @@
     "gatsby-source-filesystem": "^2.0.39",
     "gatsby-source-graphql": "^2.1.0",
     "gatsby-transformer-sharp": "^2.1.21",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.8.1",
     "react": "^16.8.6",

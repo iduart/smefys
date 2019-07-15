@@ -18,7 +18,8 @@ export const Selectors = {
     const item = state.cart && state.cart.items && state.cart.items.find(item => item._id === id)
     return item ? { ...item } : null
   },
-  getTotalPrice: state => state.cart && state.cart.totalPrice
+  getTotalPrice: state => state.cart && state.cart.totalPrice,
+  getCart: state => state.cart && state.cart.items 
 }
 
 // Reducer
@@ -42,6 +43,11 @@ const removeItem = (state, item) => {
     return state
   }
   currentItem.count--
+  
+  //if count is zero, remove from cart
+  if (currentItem.count === 0) {
+    state.splice(index, 1);
+  }
   return state
 }
 
