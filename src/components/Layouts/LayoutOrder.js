@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { navigate } from "gatsby"
 import styled from "styled-components"
-import { SecondaryButton } from "../Button/Button"
+import { PrimaryButton, SecondaryButton } from "../Button/Button"
 import NumberFormat from "react-number-format"
 import { Selectors as CartSelectors } from "../../store/cart"
 import { Selectors as OrderSelectors } from "../../store/order"
@@ -17,10 +17,12 @@ const Content = styled.div`
 const CheckOrderButton = styled.div`
   display: flex;
   justify-content: center;
+  flex-flow: row wrap;
   margin-top: 2rem;
   
   > * {
-    margin-left: 2rem;
+    flex-basis: 100%;
+    margin-top: 1rem;
   }
 `
 
@@ -53,9 +55,9 @@ const LayoutOrder = ({ children, orderDate, ...props }) => {
                 <SecondaryButton onClick={() => navigate("/categories")}>
                   Categorias
                 </SecondaryButton>
-                <SecondaryButton onClick={() => navigate("/cart")}>
+                <PrimaryButton onClick={() => navigate("/cart")}>
                   Resumen del pedido
-                </SecondaryButton>
+                </PrimaryButton>
               </CheckOrderButton>
             </>
           ) : null}

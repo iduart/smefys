@@ -19,6 +19,7 @@ export const ContentHeader = styled.div`
     color: #ff8533;
     font-size: 1.8rem;
     font-weight: bold;
+    text-align: center;
   }
 
   .order-date {

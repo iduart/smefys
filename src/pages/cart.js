@@ -13,12 +13,8 @@ import { PrimaryButton, SecondaryButton } from "../components/Button/Button"
 
 const ConfirmOrderButton = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin-top: 2rem;
-
-  > * {
-    margin-left: 2rem;
-  }
 `
 
 const CartPage = ({ cart = [], orderDate }) => {

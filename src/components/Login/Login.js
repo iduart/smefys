@@ -4,7 +4,7 @@ import { Link, navigate } from "gatsby"
 import styled from "styled-components"
 import { Logo, UserAvatarIcon, FacebookIcon } from "../Icons"
 import { Input } from "../Input/Input"
-import { PrimaryButton } from "../Button/Button"
+import { PrimaryButtonXl } from "../Button/Button"
 import { authStatus } from "../../utils/constants"
 
 const Page = styled.div`
@@ -94,7 +94,7 @@ const LoginPage = ({ authState }) => {
           placeholder="CONTRASEÑA"
           onChange={event => setPassword(event.target.value)}
         />
-        <PrimaryButton onClick={login}>ENTRAR</PrimaryButton>
+        <PrimaryButtonXl onClick={login}>ENTRAR</PrimaryButtonXl>
       </LoginForm>
       <Footer>
         No tienes cuenta? <Link to="/register">Crear una gratis</Link>

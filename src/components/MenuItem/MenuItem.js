@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import styled from "styled-components"
-import { PlusIcon } from "../Icons"
+import { PlusIcon, MinusIcon } from "../Icons"
 import {
   Actions as CartActions,
   Selectors as CartSelectors,
@@ -51,6 +51,7 @@ const Circle = styled.span`
 
 const Icon = styled(PlusIcon)`
   cursor: pointer;
+  margin-left: 3px;
 `
 
 const MenuItem = ({ item = {}, addItem, removeItem, cartItem }) => {
@@ -59,7 +60,7 @@ const MenuItem = ({ item = {}, addItem, removeItem, cartItem }) => {
       <div className="title">{item.name}</div>
       <div className="price">${item.price}</div>
       <div className="choose">
-        {cartItem.count ? <Icon onClick={() => removeItem(item)} /> : ""}
+        {cartItem.count ? <MinusIcon onClick={() => removeItem(item)} /> : ""}
         {cartItem.count ? <Circle>{cartItem.count}</Circle> : ""}
         <Icon onClick={() => addItem(item)} />
       </div>
