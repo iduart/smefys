@@ -4,5 +4,5 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 
-import reduxWrapper from "./src/store/reduxWrapper";
-export const wrapRootElement = reduxWrapper;
+import rootWrapper from "./src/rootWrapper";
+export const wrapRootElement = rootWrapper;
