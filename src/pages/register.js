@@ -1,6 +1,8 @@
 import React, { useState } from "react"
-import { Auth } from 'aws-amplify';
-import { Link, navigate } from 'gatsby';
+import gql from "graphql-tag"
+import { useMutation } from "react-apollo-hooks"
+import { Auth } from "aws-amplify"
+import { Link, navigate } from "gatsby"
 import styled from "styled-components"
 import { Logo } from "../components/Icons"
 import { Input } from "../components/Input/Input"
@@ -12,7 +14,7 @@ const Page = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   font-family: arial;
-  color: #7C7C7C;
+  color: #7c7c7c;
 
   .user-icon {
     margin-top: 1.2rem;
@@ -38,7 +40,7 @@ const LoginForm = styled.form`
   button {
     margin-top: 2rem;
   }
-`;
+`
 
 const Footer = styled.div`
   display: flex;
@@ -46,30 +48,56 @@ const Footer = styled.div`
   align-items: center;
 
   a {
-    color: #7C7C7C;
+    color: #7c7c7c;
     margin-bottom: 1.8rem;
     text-decoration: underline;
   }
-`;
+`
 
-const RegisterPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const CREATE_USER = gql`
+  mutation createUser($input: newUser!) {
+    createUser(user: $input) {
+      _id
+      name
+      email
+    }
+  }
+`
 
-  const login = async (e) => {
-    e.preventDefault();
+const RegisterPage = props => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
+  const [phone, setPhone] = useState("")
+  const [address, setAddress] = useState("")
+  const [createUser] = useMutation(CREATE_USER)
+
+  const login = async e => {
+    e.preventDefault()
     try {
-      await Auth.signUp({
+      const authProviderUser = await Auth.signUp({
         username: email,
         password,
         attributes: {
-          email
-        }
-      });
-      
-      navigate(`/verify-account?username=${email}`);
-    } catch(error) {
-      alert('No se pudo crear la cuenta');
+          email,
+        },
+      })
+
+      createUser({
+        variables: {
+          input: {
+            identityProviderId: authProviderUser.userSub,
+            name,
+            phone,
+            email,
+            address,
+          },
+        },
+      })
+
+      navigate(`/verify-account?username=${email}`)
+    } catch (error) {
+      alert("No se pudo crear la cuenta")
     }
   }
 
@@ -79,9 +107,32 @@ const RegisterPage = () => {
         <Logo width="150" height="100" />
       </div>
       <LoginForm>
-        <Input type="text" placeholder="EMAIL" onChange={ event => setEmail(event.target.value)} />
-        <Input type="password" placeholder="CONTRASEÑA" onChange={ event => setPassword(event.target.value)} />
-        <Input type="address" placeholder="DIRECCION" />
+        <Input
+          type="text"
+          placeholder="EMAIL"
+          onChange={event => setEmail(event.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="CONTRASEÑA"
+          onChange={event => setPassword(event.target.value)}
+        />
+        <br />
+        <Input
+          type="name"
+          placeholder="NOMBRE"
+          onChange={event => setName(event.target.value)}
+        />
+        <Input
+          type="address"
+          placeholder="DIRECCION"
+          onChange={event => setAddress(event.target.value)}
+        />
+        <Input
+          type="phone"
+          placeholder="TELEFONO"
+          onChange={event => setPhone(event.target.value)}
+        />
         <PrimaryButton onClick={login}>CREAR CUENTA</PrimaryButton>
       </LoginForm>
       <Footer>

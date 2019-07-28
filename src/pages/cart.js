@@ -31,22 +31,26 @@ const CREATE_ORDER = gql`
 
 const CartPage = ({ cart = [], orderDate }) => {
   const { items = [] } = cart
-  const menuItems = items.map(item => ({ id: item._id, quantity: item.count }))
-  const variables = {
-    input: {
-      total: cart.totalPrice,
-      deliveryDate: orderDate,
-      user: "5d21765a314af7d3fd7b952f",
-      menuItems
-    },
-  }
-  const [createOrder] = useMutation(CREATE_ORDER, { variables })
+  const [createOrder] = useMutation(CREATE_ORDER)
 
   const submitOrder = () => {
     if (!items.length) {
-      return;
+      return
     }
-    createOrder();
+    const menuItems = items.map(item => ({
+      id: item._id,
+      quantity: item.count,
+    }))
+    createOrder({
+      variables: {
+        input: {
+          total: cart.totalPrice,
+          deliveryDate: orderDate,
+          user: "5d21765a314af7d3fd7b952f",
+          menuItems,
+        },
+      },
+    })
   }
 
   return (
