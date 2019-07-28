@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { navigate } from "gatsby"
 import { connect } from "react-redux"
 import NumberFormat from "react-number-format"
+import gql from "graphql-tag"
+import { useMutation } from "react-apollo-hooks"
 import withAuthenticator from "../hoc/withAuthenticator"
 import MenuItem from "../components/MenuItem/MenuItem"
 import { Selectors as CartSelectors } from "../store/cart"
@@ -17,8 +19,36 @@ const ConfirmOrderButton = styled.div`
   margin-top: 2rem;
 `
 
+const CREATE_ORDER = gql`
+  mutation createOrder($input: newOrder!) {
+    createOrder(order: $input) {
+      _id
+      total
+      deliveryDate
+    }
+  }
+`
+
 const CartPage = ({ cart = [], orderDate }) => {
   const { items = [] } = cart
+  const menuItems = items.map(item => ({ id: item._id, quantity: item.count }))
+  const variables = {
+    input: {
+      total: cart.totalPrice,
+      deliveryDate: orderDate,
+      user: "5d21765a314af7d3fd7b952f",
+      menuItems
+    },
+  }
+  const [createOrder] = useMutation(CREATE_ORDER, { variables })
+
+  const submitOrder = () => {
+    if (!items.length) {
+      return;
+    }
+    createOrder();
+  }
+
   return (
     <Page>
       <PageHeader />
@@ -53,7 +83,7 @@ const CartPage = ({ cart = [], orderDate }) => {
         <SecondaryButton onClick={() => navigate("/categories")}>
           Volver
         </SecondaryButton>
-        <PrimaryButton>Confirmar Pedido</PrimaryButton>
+        <PrimaryButton onClick={submitOrder}>Confirmar Pedido</PrimaryButton>
       </ConfirmOrderButton>
     </Page>
   )

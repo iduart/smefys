@@ -1,5 +1,4 @@
 import React from "react"
-import styled from "styled-components"
 import { graphql } from "gatsby"
 import LayoutOrder from "../components/Layouts/LayoutOrder"
 import withAuthenticator from "../hoc/withAuthenticator"
