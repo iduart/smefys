@@ -1,8 +1,10 @@
 import React, { useState } from "react"
+import { connect } from "react-redux"
 import styled from "styled-components"
 import { Auth } from "aws-amplify"
 import { Collapse } from "reactstrap"
 import { LogoIcon, HamburgerIcon } from "../Icons"
+import { Actions as AuthActions } from '../../store/auth';
 
 const Header = styled.div`
   display: flex;
@@ -43,11 +45,11 @@ const HamburgerMenu = styled.div`
   }
 `
 
-
-const PageHeader = () => {
+const PageHeader = (props) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const signOut = () => {
+    props.logout();
     Auth.signOut()
   }
 
@@ -72,4 +74,13 @@ const PageHeader = () => {
   )
 }
 
-export default PageHeader
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(AuthActions.logout())
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(PageHeader)
