@@ -8,6 +8,10 @@ export const Actions = {
   logout: () => ({ type: Types.LOGOUT })
 }
 
+export const Selectors = {
+  getAuthProviderId: state => state.auth && state.auth.id
+}
+
 export const reducer = (state = {}, action) => {
   switch(action.type) {
     case Types.FETCH_AUTH: {

@@ -9,6 +9,7 @@ import withAuthenticator from "../hoc/withAuthenticator"
 import MenuItem from "../components/MenuItem/MenuItem"
 import { Selectors as CartSelectors } from "../store/cart"
 import { Selectors as OrderSelectors } from "../store/order"
+import { Selectors as AuthSelectors } from "../store/auth"
 import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
 import PageHeader from "../components/PageHeader/PageHeader"
 import { PrimaryButton, SecondaryButton } from "../components/Button/Button"
@@ -29,7 +30,7 @@ const CREATE_ORDER = gql`
   }
 `
 
-const CartPage = ({ cart = [], orderDate }) => {
+const CartPage = ({ cart = [], orderDate, authProviderId }) => {
   const { items = [] } = cart
   const [createOrder] = useMutation(CREATE_ORDER)
 
@@ -46,7 +47,7 @@ const CartPage = ({ cart = [], orderDate }) => {
         input: {
           total: cart.totalPrice,
           deliveryDate: orderDate,
-          user: "5d21765a314af7d3fd7b952f",
+          user: authProviderId,
           menuItems,
         },
       },
@@ -97,6 +98,7 @@ function mapStateToProps(state) {
   return {
     cart: CartSelectors.getCart(state),
     orderDate: OrderSelectors.getOrderDate(state),
+    authProviderId: AuthSelectors.getAuthProviderId(state),
   }
 }
 
