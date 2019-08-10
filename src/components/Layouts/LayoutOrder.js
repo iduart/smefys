@@ -3,11 +3,11 @@ import { connect } from "react-redux"
 import { navigate } from "gatsby"
 import styled from "styled-components"
 import { PrimaryButton, SecondaryButton } from "../Button/Button"
-import NumberFormat from "react-number-format"
 import { Selectors as CartSelectors } from "../../store/cart"
 import { Selectors as OrderSelectors } from "../../store/order"
 import PageHeader from "../PageHeader/PageHeader"
 import { Page, ContentHeader } from "./Common"
+import FormatPrice from "../FormatPrice/FormatPrice"
 
 const Content = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const CheckOrderButton = styled.div`
   justify-content: center;
   flex-flow: row wrap;
   margin-top: 2rem;
-  
+
   > * {
     flex-basis: 100%;
     margin-top: 1rem;
@@ -43,12 +43,7 @@ const LayoutOrder = ({ children, orderDate, ...props }) => {
               <div className="total-payment">
                 <div className="total-payment-title">TOTAL A PAGAR</div>
                 <div className="total-payment-value">
-                  <NumberFormat
-                    value={props.totalPrice}
-                    displayType={"text"}
-                    thousandSeparator={true}
-                    prefix={"$"}
-                  />
+                  <FormatPrice price={props.totalPrice} />
                 </div>
               </div>
               <CheckOrderButton>

@@ -2,7 +2,6 @@ import React from "react"
 import styled from "styled-components"
 import { navigate } from "gatsby"
 import { connect } from "react-redux"
-import NumberFormat from "react-number-format"
 import gql from "graphql-tag"
 import { useMutation } from "react-apollo-hooks"
 import withAuthenticator from "../hoc/withAuthenticator"
@@ -13,6 +12,7 @@ import { Selectors as AuthSelectors } from "../store/auth"
 import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
 import PageHeader from "../components/PageHeader/PageHeader"
 import { PrimaryButton, SecondaryButton } from "../components/Button/Button"
+import FormatPrice from "../components/FormatPrice/FormatPrice"
 
 const ConfirmOrderButton = styled.div`
   display: flex;
@@ -70,12 +70,7 @@ const CartPage = ({ cart = [], orderDate, authProviderId }) => {
         <div className="total-payment">
           <div className="total-payment-title">TOTAL A PAGAR</div>
           <div className="total-payment-value">
-            <NumberFormat
-              value={cart.totalPrice}
-              displayType={"text"}
-              thousandSeparator={true}
-              prefix={"$"}
-            />
+            <FormatPrice price={cart.totalPrice} />
           </div>
         </div>
       </ContentHeader>

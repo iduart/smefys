@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
+import { navigate } from 'gatsby';
 import styled from "styled-components"
 import { Auth } from "aws-amplify"
 import { Collapse } from "reactstrap"
@@ -38,9 +39,10 @@ const HamburgerMenu = styled.div`
     margin: 0;
 
     li {
-      padding: 0;
+      padding: 0.5rem 0;
       margin: 0;
       list-style: none;
+      cursor: pointer;
     }
   }
 `
@@ -66,7 +68,8 @@ const PageHeader = (props) => {
       <Collapse isOpen={isOpen}>
         <HamburgerMenu>
           <ul>
-            <li onClick={signOut}>Logout</li>
+            <li onClick={() => navigate('/orders')}>Mis Pedidos</li>
+            <li onClick={signOut}>Cerrar Sesion</li>
           </ul>
         </HamburgerMenu>
       </Collapse>
