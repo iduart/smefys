@@ -43,18 +43,20 @@ const Choose = styled.div`
   }
 `
 
-const MenuItem = ({ item = {}, addItem, removeItem, cartItem }) => {
+const MenuItem = ({ item = {}, addItem, removeItem, cartItem, readonly }) => {
   return (
     <ListItem>
       <Title>{item.name}</Title>
       <Price>
         <FormatPrice price={item.price} />
       </Price>
-      <Choose>
-        {cartItem.count ? <MinusIcon onClick={() => removeItem(item)} /> : ""}
-        {cartItem.count ? <Circle>{cartItem.count}</Circle> : ""}
-        <Icon onClick={() => addItem(item)} />
-      </Choose>
+      {!readonly && (
+        <Choose>
+          {cartItem.count ? <MinusIcon onClick={() => removeItem(item)} /> : ""}
+          {cartItem.count ? <Circle>{cartItem.count}</Circle> : ""}
+          <Icon onClick={() => addItem(item)} />
+        </Choose>
+      )}
     </ListItem>
   )
 }

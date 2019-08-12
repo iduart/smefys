@@ -1,8 +1,8 @@
 import React from "react"
-import { connect } from "react-redux"
 import gql from "graphql-tag"
 import styled from 'styled-components';
 import { useQuery } from "react-apollo-hooks"
+import { navigate } from 'gatsby'
 import withAuthenticator from "../hoc/withAuthenticator"
 import ListItem from "../components/ListItem/ListItem"
 import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
@@ -17,6 +17,7 @@ const OrderItem = styled(ListItem)`
 const GET_MY_ORDERS = gql`
   query getMyOrders($input: ID!) {
     orders: getOrdersByUser(userId: $input) {
+      _id
       total
       deliveryDate
     }
@@ -36,7 +37,7 @@ const OrdersPage = () => {
       </ContentHeader>
       <ContentBody>
         {orders && orders.map(order => (
-          <OrderItem>
+          <OrderItem key={order._id} onClick={() => navigate(`/order-detail?id=${order._id}`)}>
             <div>{esMoment(new Date(order.deliveryDate)).format('LL')}</div>
             <div>{<FormatPrice price={order.total} />}</div>
           </OrderItem>
@@ -46,8 +47,4 @@ const OrdersPage = () => {
   )
 }
 
-function mapStateToProps(state) {
-  return {}
-}
-
-export default connect(mapStateToProps)(withAuthenticator(OrdersPage))
+export default withAuthenticator(OrdersPage);

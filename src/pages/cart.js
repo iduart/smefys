@@ -41,6 +41,8 @@ const CartPage = ({ cart = [], orderDate, authProviderId }) => {
     const menuItems = items.map(item => ({
       id: item._id,
       quantity: item.count,
+      price: item.price,
+      name: item.name,
     }))
     createOrder({
       variables: {
