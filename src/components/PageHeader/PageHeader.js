@@ -68,7 +68,9 @@ const PageHeader = (props) => {
       <Collapse isOpen={isOpen}>
         <HamburgerMenu>
           <ul>
-            <li onClick={() => navigate('/orders')}>Mis Pedidos</li>
+            <li onClick={() => navigate('orders')}>Mis Pedidos</li>
+            <li onClick={() => navigate('categories')}>Categorias</li>
+            <li onClick={() => navigate('cart')}>Carrito</li>
             <li onClick={signOut}>Cerrar Sesion</li>
           </ul>
         </HamburgerMenu>

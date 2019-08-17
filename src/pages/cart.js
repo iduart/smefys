@@ -4,6 +4,7 @@ import { navigate } from "gatsby"
 import { connect } from "react-redux"
 import gql from "graphql-tag"
 import { useMutation } from "react-apollo-hooks"
+import { toast } from "react-toastify"
 import withAuthenticator from "../hoc/withAuthenticator"
 import MenuItem from "../components/MenuItem/MenuItem"
 import { Selectors as CartSelectors } from "../store/cart"
@@ -13,6 +14,7 @@ import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
 import PageHeader from "../components/PageHeader/PageHeader"
 import { PrimaryButton, SecondaryButton } from "../components/Button/Button"
 import FormatPrice from "../components/FormatPrice/FormatPrice"
+import { Actions as CartActions } from '../store/cart'; 
 
 const ConfirmOrderButton = styled.div`
   display: flex;
@@ -22,7 +24,7 @@ const ConfirmOrderButton = styled.div`
 
 const CREATE_ORDER = gql`
   mutation createOrder($input: newOrder!) {
-    createOrder(order: $input) {
+    order: createOrder(order: $input) {
       _id
       total
       deliveryDate
@@ -30,11 +32,11 @@ const CREATE_ORDER = gql`
   }
 `
 
-const CartPage = ({ cart = [], orderDate, authProviderId }) => {
+const CartPage = ({ cart = [], orderDate, authProviderId, resetCart }) => {
   const { items = [] } = cart
   const [createOrder] = useMutation(CREATE_ORDER)
 
-  const submitOrder = () => {
+  const submitOrder = async () => {
     if (!items.length) {
       return
     }
@@ -44,16 +46,24 @@ const CartPage = ({ cart = [], orderDate, authProviderId }) => {
       price: item.price,
       name: item.name,
     }))
-    createOrder({
-      variables: {
-        input: {
-          total: cart.totalPrice,
-          deliveryDate: orderDate,
-          user: authProviderId,
-          menuItems,
+    try {
+      const response = await createOrder({
+        variables: {
+          input: {
+            total: cart.totalPrice,
+            deliveryDate: orderDate,
+            user: authProviderId,
+            menuItems,
+          },
         },
-      },
-    })
+      })
+      toast.success("Pedido recibido 😀")
+      resetCart();
+      const { order } = response.data; 
+      navigate(`order-detail?id=${order._id}`);
+    } catch (err) {
+      toast.error("Error procesando el pedido 😢")
+    }
   }
 
   return (
@@ -99,4 +109,10 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(withAuthenticator(CartPage))
+function mapDispatchToProps(dispatch) {
+  return {
+    resetCart: () => dispatch(CartActions.resetCart())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticator(CartPage))

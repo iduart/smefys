@@ -4,12 +4,14 @@ import { combineReducers } from "redux"
 export const Types = {
   ADD_ITEM: "ADD_ITEM",
   REMOVE_ITEM: "REMOVE_ITEM",
+  RESET_CART: 'RESET_CART',
 }
 
 // Actions
 export const Actions = {
   addItem: item => ({ type: Types.ADD_ITEM, item }),
   removeItem: item => ({ type: Types.REMOVE_ITEM, item }),
+  resetCart: () => ({ type: Types.RESET_CART })
 }
 
 // Selectors
@@ -60,6 +62,9 @@ const items = (state = [], action) => {
     case Types.REMOVE_ITEM: {
       return removeItem([...state], action.item)
     }
+    case Types.RESET_CART: {
+      return []
+    }
     default: {
       return state
     }
@@ -75,6 +80,9 @@ const totalPrice = (state = 0, action) => {
     case Types.REMOVE_ITEM: {
       const { item } = action;
       return state - parseInt(item.price);
+    }
+    case Types.RESET_CART: {
+      return 0;
     }
     default: {
       return state
