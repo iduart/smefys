@@ -18,7 +18,7 @@ export const onRouteUpdate = async () => {
   }
   const auth = {
     signedIn: true,
-    id: cognitoInfo.username,
+    authProviderId: cognitoInfo.username,
   }
   store.dispatch({ type: AuthTypes.FETCH_AUTH, auth })
 }

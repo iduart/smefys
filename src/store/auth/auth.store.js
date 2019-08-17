@@ -9,7 +9,7 @@ export const Actions = {
 }
 
 export const Selectors = {
-  getAuthProviderId: state => state.auth && state.auth.id
+  getAuthProviderId: state => state.auth && state.auth.authProviderId
 }
 
 export const reducer = (state = {}, action) => {
