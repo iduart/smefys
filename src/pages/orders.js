@@ -9,7 +9,7 @@ import ListItem from "../components/ListItem/ListItem"
 import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
 import PageHeader from "../components/PageHeader/PageHeader"
 import FormatPrice from "../components/FormatPrice/FormatPrice"
-import { esMoment } from "../utils/formatDate"
+import { formatDate } from "../utils/formatDate"
 import { Selectors as AuthSelectors } from "../store/auth"
 
 const OrderItem = styled(ListItem)`
@@ -35,6 +35,9 @@ const GET_USER_BY_AUTH_PROVIDER = gql`
 `
 
 const OrdersPage = ({ authProviderId }) => {
+  if (!authProviderId) {
+    return null;
+  }
   const { data: userResponse = {} } = useQuery(GET_USER_BY_AUTH_PROVIDER, { variables: { input: authProviderId }})
   const { user = {} } = userResponse;
 
@@ -55,7 +58,7 @@ const OrdersPage = ({ authProviderId }) => {
               key={order._id}
               onClick={() => navigate(`/order-detail?id=${order._id}`)}
             >
-              <div>{esMoment(new Date(order.deliveryDate)).format("LL")}</div>
+              <div>{formatDate(order.deliveryDate)}</div>
               <div>{<FormatPrice price={order.total} />}</div>
             </OrderItem>
           ))}

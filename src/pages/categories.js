@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { graphql } from "gatsby"
+import { useQuery } from "react-apollo-hooks"
+import gql from 'graphql-tag'
 import withAuthenticator from "../hoc/withAuthenticator"
 import LayoutOrder from "../components/Layouts/LayoutOrder"
 import { authStatus } from "../utils/constants"
@@ -14,8 +15,18 @@ const ContentBody = styled.div`
   padding: 0 1rem;
 `
 
-const CategoriesPage = ({ data, authState }) => {
-  const { categories = [] } = data.api
+const GET_CATEGORIES = gql`
+  query {
+    categories: getCategories {
+      _id
+      name
+    }
+  }
+`
+
+const CategoriesPage = ({ authState }) => {
+  const { data = {} } = useQuery(GET_CATEGORIES);
+  const { categories = [] } = data;
 
   return (
     authState === authStatus.SIGNED_IN && (
@@ -31,14 +42,3 @@ const CategoriesPage = ({ data, authState }) => {
 }
 
 export default withAuthenticator(CategoriesPage)
-
-export const query = graphql`
-  query {
-    api {
-      categories: getCategories {
-        _id
-        name
-      }
-    }
-  }
-`

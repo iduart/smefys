@@ -1,9 +1,10 @@
 import React from "react"
 import gql from "graphql-tag"
-import { navigate } from 'gatsby'
+import { navigate } from "gatsby"
 import styled from "styled-components"
 import { useQuery } from "react-apollo-hooks"
 import queryString from "query-string"
+import { formatDate } from '../utils/formatDate';
 import withAuthenticator from "../hoc/withAuthenticator"
 import MenuItem from "../components/MenuItem/MenuItem"
 import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
@@ -24,7 +25,7 @@ const Footer = styled.div`
 `
 
 const GET_ORDER = gql`
-  query getMyOrders($input: ID!) {
+  query getOrder($input: ID!) {
     order: getOrder(id: $input) {
       _id
       total
@@ -54,7 +55,9 @@ const OrderDetailPage = ({ location }) => {
       <ContentHeader>
         <div className="title">Detalle del pedido</div>
         <div>
-          <b>Fecha {order.createdAt}</b>
+          {order.createdAt && (
+            <b>{formatDate(order.deliveryDate)}</b>
+          )}
         </div>
       </ContentHeader>
       <ContentBody>
