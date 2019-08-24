@@ -11,19 +11,10 @@ import PageHeader from "../components/PageHeader/PageHeader"
 import FormatPrice from "../components/FormatPrice/FormatPrice"
 import { formatDate } from "../utils/formatDate"
 import { Selectors as AuthSelectors } from "../store/auth"
+import { GET_MY_ORDERS } from '../apollo/orders'
 
 const OrderItem = styled(ListItem)`
   cursor: pointer;
-`
-
-const GET_MY_ORDERS = gql`
-  query getMyOrders($input: ID!) {
-    orders: getOrdersByUser(userId: $input) {
-      _id
-      total
-      deliveryDate
-    }
-  }
 `
 
 const GET_USER_BY_AUTH_PROVIDER = gql`

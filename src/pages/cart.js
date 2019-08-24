@@ -14,7 +14,8 @@ import { Page, ContentBody, ContentHeader } from "../components/Layouts/Common"
 import PageHeader from "../components/PageHeader/PageHeader"
 import { PrimaryButton, SecondaryButton } from "../components/Button/Button"
 import FormatPrice from "../components/FormatPrice/FormatPrice"
-import { Actions as CartActions } from '../store/cart'; 
+import { Actions as CartActions } from "../store/cart"
+import { GET_MY_ORDERS } from '../apollo/orders'
 
 const ConfirmOrderButton = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ const CREATE_ORDER = gql`
 
 const CartPage = ({ cart = [], orderDate, authProviderId, resetCart }) => {
   const { items = [] } = cart
-  const [createOrder] = useMutation(CREATE_ORDER)
+  const [createOrder] = useMutation(CREATE_ORDER);
 
   const submitOrder = async () => {
     if (!items.length) {
@@ -56,11 +57,21 @@ const CartPage = ({ cart = [], orderDate, authProviderId, resetCart }) => {
             menuItems,
           },
         },
+        update: (store, { data }) => {
+          const ordersData = store.readQuery({ query: GET_MY_ORDERS, variables: { input: "5d3d1bba1eb8e532cd46b52c" } });
+          store.writeQuery({
+            query: GET_MY_ORDERS,
+            variables: { input: "5d3d1bba1eb8e532cd46b52c"},
+            data: {
+              orders: [...ordersData.orders, data.order]
+            }
+          })
+        }
       })
       toast.success("Pedido recibido 😀")
-      resetCart();
-      const { order } = response.data; 
-      navigate(`order-detail?id=${order._id}`);
+      resetCart()
+      const { order } = response.data
+      navigate(`order-detail?id=${order._id}`)
     } catch (err) {
       toast.error("Error procesando el pedido 😢")
     }
@@ -111,8 +122,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetCart: () => dispatch(CartActions.resetCart())
+    resetCart: () => dispatch(CartActions.resetCart()),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticator(CartPage))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withAuthenticator(CartPage))
